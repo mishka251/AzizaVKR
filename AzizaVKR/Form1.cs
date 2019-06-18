@@ -19,13 +19,30 @@ namespace AzizaVKR
             borderRects = new List<myRectangle>();
             rand = new Random();
         }
-
+        /// <summary>
+        /// Прямоугольники разбиения
+        /// </summary>
         List<myRectangle> finalRects;
+        /// <summary>
+        /// Прямоугольники запретных областей
+        /// </summary>
         List<myRectangle> borderRects;
+        /// <summary>
+        /// Рандом для случ. цвета
+        /// </summary>
         Random rand;
+        /// <summary>
+        /// Границы прямоугольников по иксу
+        /// </summary>
         List<int> boredrrsX;
+        /// <summary>
+        /// Границы прямоугольников по игреку
+        /// </summary>
         List<int> boredresY;
 
+        /// <summary>
+        /// Вычисляем границы "запретных" прямоугольников
+        /// </summary>
         void getBordersXY()
         {
             boredrrsX = new List<int>();
@@ -51,7 +68,10 @@ namespace AzizaVKR
             boredrrsX.Sort();//sort
             boredresY.Sort();
         }
-
+        /// <summary>
+        /// Случайный цвет
+        /// </summary>
+        /// <returns></returns>
         Color getRandColor()
         {
             Color col = Color.FromArgb(
@@ -64,7 +84,9 @@ namespace AzizaVKR
             return col;
 
         }
-
+        /// <summary>
+        /// Находим все прямоугольники, на которые запретные разбивают экран
+        /// </summary>
         void getAllRectangles()
         {
             finalRects = new List<myRectangle>();
@@ -88,7 +110,9 @@ namespace AzizaVKR
             }
         }
 
-
+        /// <summary>
+        /// Слияние прямоугольников в нужное
+        /// </summary>
         void calcRectangles()
         {
             bool has_changes = true;
@@ -136,7 +160,9 @@ namespace AzizaVKR
 
 
 
-
+        /// <summary>
+        /// Отрисовка
+        /// </summary>
         void ShowPic()
         {
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -154,17 +180,6 @@ namespace AzizaVKR
             pictureBox1.Image = bmp;
         }
 
-        void ShowPic2()
-        {
-            Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-
-
-            foreach (myRectangle mr in finalRects)
-                mr.Draw(gr);
-
-            pictureBox1.Image = bmp;
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             getBordersXY();

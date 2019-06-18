@@ -18,27 +18,45 @@ namespace AzizaVKR
         public static Color borderColor = Color.Black;
         public bool selected;
 
+        /// <summary>
+        /// Сдвиг прямоугольника на указанные значения
+        /// </summary>
+        /// <param name="dx">сдвиг по горизонтали</param>
+        /// <param name="dy">сдвиг по вертикали</param>
         public void Move(int dx, int dy)
         {
             x += dx;
             y += dy;
         }
-
+        /// <summary>
+        /// Проверка на нахождеине точки в прямоугольники
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool IsIn(Point p)
         {
             return
                 ((x <= p.X) && (p.X <= x + w)) &&
                 ((y <= p.Y) && (p.Y <= y + h));
         }
-
+        /// <summary>
+        /// Рисование рпямоугольника на графике
+        /// </summary>
+        /// <param name="gr"></param>
         public void Draw(Graphics gr)
         {
             gr.FillRectangle(new SolidBrush(color), x, y, w, h);
             if (selected)
-                gr.DrawRectangle(new Pen(selectColor, 2), x -2, y - 2, w + 2, h + 2);
+                gr.DrawRectangle(new Pen(selectColor, 2), x - 2, y - 2, w + 2, h + 2);
             else
-                gr.DrawRectangle(new Pen(borderColor, 2), x, y , w , h );
+                gr.DrawRectangle(new Pen(borderColor, 2), x, y, w, h);
         }
+
+        /// <summary>
+        /// Проверка является ли прямоугольник сосоедним
+        /// </summary>
+        /// <param name="mr2"></param>
+        /// <returns></returns>
 
         public bool isNearest(myRectangle mr2)
         {
@@ -61,24 +79,13 @@ namespace AzizaVKR
             return false;
 
         }
-        //public static bool operator ==(myRectangle mr1, myRectangle mr2)
-        //{
-        //    return
-        //        Math.Abs(mr1.x - mr2.x) < 2 &&
-        //        Math.Abs(mr1.y - mr2.y) < 2 &&
-        //        Math.Abs(mr1.w - mr2.w) < 2 &&
-        //        Math.Abs(mr1.h - mr2.h) < 2;
-        //}
 
-        //public static bool operator !=(myRectangle mr1, myRectangle mr2)
-        //{
-        //    return !(
-        //        Math.Abs(mr1.x - mr2.x) < 2 &&
-        //        Math.Abs(mr1.y - mr2.y) < 2 &&
-        //        Math.Abs(mr1.w - mr2.w) < 2 &&
-        //        Math.Abs(mr1.h - mr2.h) < 2);
-        //}
-
+        /// <summary>
+        /// Слияние двух прямоугольников в один
+        /// </summary>
+        /// <param name="mr1"></param>
+        /// <param name="mr2"></param>
+        /// <returns></returns>
         public static myRectangle operator +(myRectangle mr1, myRectangle mr2)
         {
             if (!mr1.isNearest(mr2))
@@ -104,7 +111,7 @@ namespace AzizaVKR
                     w = mr1.w + mr2.w,
                     y = mr1.y,
                     h = mr1.h,
-                    color=mr1.color
+                    color = mr1.color
                 };
             }
 
@@ -112,26 +119,29 @@ namespace AzizaVKR
 
         }
 
+        /// <summary>
+        /// Оценка прямоугольника(фактически площадь)
+        /// </summary>
+        /// <returns></returns>
         public int getM()
         {
             return w * h;
         }
 
-
+        /// <summary>
+        /// В строку - чтобы смотреть значения в дебаге
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"x={x} y={y} w={w} h={h}";
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is myRectangle))
-        //        return false;
-        //    myRectangle mr = (myRectangle)obj;
-
-        //    return mr == this;
-        //}
-
+        /// <summary>
+        /// Является ли аргумент частью этого прямоугольника
+        /// </summary>
+        /// <param name="mr">прямоугольник, который проверяем на вхождение в данный</param>
+        /// <returns></returns>
         public bool isPart(myRectangle mr)
         {
             return mr.x >= this.x &&
