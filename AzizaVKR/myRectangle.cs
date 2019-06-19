@@ -149,6 +149,16 @@ namespace AzizaVKR
                 mr.y + mr.h <= this.y + this.h &&
                 mr.x + mr.w <= this.x + this.w;
         }
-
+        public myRectangle Copy()
+        {
+            return new myRectangle()
+            {
+                x = this.x,
+                y = this.y,
+                w = this.w,
+                h = this.h,
+                color = this.color
+            };
+        }
     }
 }

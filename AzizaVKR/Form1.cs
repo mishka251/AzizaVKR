@@ -15,14 +15,17 @@ namespace AzizaVKR
         public Form1()
         {
             InitializeComponent();
-            finalRects = new List<myRectangle>();
+            startRects = new List<myRectangle>();
             borderRects = new List<myRectangle>();
+            resultRects = new List<myRectangle>();
             rand = new Random();
         }
         /// <summary>
-        /// Прямоугольники разбиения
+        /// Прямоугольники начального разбиения
         /// </summary>
-        List<myRectangle> finalRects;
+        List<myRectangle> startRects;
+
+        List<myRectangle> resultRects;
         /// <summary>
         /// Прямоугольники запретных областей
         /// </summary>
@@ -89,7 +92,7 @@ namespace AzizaVKR
         /// </summary>
         void getAllRectangles()
         {
-            finalRects = new List<myRectangle>();
+            startRects = new List<myRectangle>();
             for (int i = 0; i < boredrrsX.Count - 1; i++)
             {
                 for (int j = 0; j < boredresY.Count - 1; j++)
@@ -105,7 +108,7 @@ namespace AzizaVKR
 
 
                     if (!borderRects.Any(border => border.isPart(mr)))
-                        finalRects.Add(mr);
+                        startRects.Add(mr);
                 }
             }
         }
@@ -116,27 +119,34 @@ namespace AzizaVKR
         void calcRectangles()
         {
             bool has_changes = true;
-            double h = (double)pictureBox1.Width;
+            double h = (double)pictureBox1.Height;
+
+            resultRects.Clear();
+            foreach(var rect in startRects)
+            {
+                resultRects.Add(rect.Copy());
+            }
+
             while (has_changes)
             {
                 has_changes = false;
-                finalRects.Sort((mr1, mr2) => mr1.getM() > mr2.getM() ? -1 : mr1.getM() == mr2.getM() ? 0 : 1);
+                resultRects.Sort((mr1, mr2) => mr1.getM() > mr2.getM() ? -1 : mr1.getM() == mr2.getM() ? 0 : 1);
 
-                for (int i = 0; i < finalRects.Count - 1; i++)
+                for (int i = 0; i < resultRects.Count - 1; i++)
                 {
-                    myRectangle mri = finalRects[i];
+                    myRectangle mri = resultRects[i];
 
                     Dictionary<double, List<myRectangle>> nearests = new Dictionary<double, List<myRectangle>>();
 
-                    for (int j = 0; j < finalRects.Count; j++)
-                        if (i != j && mri.isNearest(finalRects[j]))
+                    for (int j = 0; j < resultRects.Count; j++)
+                        if (i != j && mri.isNearest(resultRects[j]))
                         {
                             double O = 0;
-                            double lambda = (mri.w + finalRects[j].w) / h;
-                            O = (mri.getM() + finalRects[j].getM()) / lambda;
+                            double lambda = (mri.w + resultRects[j].w) / h;
+                            O = (mri.getM() + resultRects[j].getM()) / lambda;
                             if (!nearests.ContainsKey(O))
                                 nearests.Add(O, new List<myRectangle>());
-                            nearests[O].Add(finalRects[j]);
+                            nearests[O].Add(resultRects[j]);
 
                         }
 
@@ -144,8 +154,8 @@ namespace AzizaVKR
                     {
                         myRectangle near = nearests.Last().Value.First();
 
-                        finalRects[i] += near;
-                        finalRects.Remove(near);
+                        resultRects[i] += near;
+                        resultRects.Remove(near);
                         has_changes = true;
                         i--;
                     }
@@ -168,16 +178,27 @@ namespace AzizaVKR
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics gr = Graphics.FromImage(bmp);
 
-
-            foreach (myRectangle mr in finalRects)
+            foreach (myRectangle mr in startRects)
                 mr.Draw(gr);
-
             foreach (myRectangle mr in borderRects)
                 mr.Draw(gr);
 
 
-
             pictureBox1.Image = bmp;
+
+
+
+
+            Bitmap bmp2 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            Graphics gr2 = Graphics.FromImage(bmp2);
+
+            foreach (myRectangle mr in resultRects)
+                mr.Draw(gr2);
+            foreach (myRectangle mr in borderRects)
+                mr.Draw(gr2);
+
+
+            pictureBox2.Image = bmp2;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -190,14 +211,16 @@ namespace AzizaVKR
 
         private void button2_Click(object sender, EventArgs e)
         {
-            finalRects.Clear();
+            startRects.Clear();
             borderRects.Clear();
+            resultRects.Clear();
             ShowPic();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            finalRects.Clear();
+            startRects.Clear();
+            resultRects.Clear();
             ShowPic();
         }
 
