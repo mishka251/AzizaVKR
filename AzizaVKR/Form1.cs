@@ -427,6 +427,60 @@ namespace AzizaVKR
             resizeElements();
         }
 
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            if (borderRects.Any(bord => bord.IsIn(e.Location)))
+            {
+                MyRectangle clicked = borderRects.Find(rect => rect.IsIn(e.Location));
+                InputRect inputRect = new InputRect(pictureBox1.Width, pictureBox1.Height,
+                    clicked.X,clicked.Y,
+                    clicked.Width, clicked.Height);
+                if (inputRect.ShowDialog() == DialogResult.OK)
+                {
+                    clicked.X = inputRect.x;
+                    clicked.Y = inputRect.y;
+                    clicked.Width = inputRect.w;
+                    clicked.Height = inputRect.h;
+                }
+            }
+
+            ShowPic();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+            InputRect inputRect = new InputRect(pictureBox1.Width, pictureBox1.Height);
+            if (inputRect.ShowDialog() == DialogResult.OK)
+            {
+                MyRectangle newRect = new MyRectangle
+                {
+                    X = inputRect.x,
+                    Y = inputRect.y,
+                    Width = inputRect.w,
+                    Height = inputRect.h,
+                    FillColor=Color.Black
+                };
+
+                borderRects.Add(newRect);
+
+                if(checkRectCross())
+                {
+                    MessageBox.Show("Пересечение!");
+                    borderRects.Remove(newRect);
+                }
+
+            }
+            ShowPic();
+        }
+
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
 
