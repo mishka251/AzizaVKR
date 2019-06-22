@@ -6,17 +6,47 @@ using System.Threading.Tasks;
 using System.Drawing;
 namespace AzizaVKR
 {
-    class myRectangle
+    /// <summary>
+    /// Класс прямоугольника
+    /// Описывает прямоугольник на плоскости с координатами левого верхнего угла
+    /// И размерами - высотой и шириной
+    /// Может рисоваться определенным цветом и рамкой в зависимости от выбранности
+    /// </summary>
+    class MyRectangle
     {
-        public int x;
-        public int y;
-        public int w;
-        public int h;
+        /// <summary>
+        /// Координата Х левого верхнего угла
+        /// </summary>
+        public int X { get; set; }
+        /// <summary>
+        /// Координата У левого верхнего угла
+        /// </summary>
+        public int Y { get; set; }
+        /// <summary>
+        /// Ширина прямоугольника
+        /// </summary>
+        public int Width { get; set; }
+        /// <summary>
+        /// Высота прямоугольника
+        /// </summary>
+        public int Height { get; set; }
 
-        public Color color;
-        public static Color selectColor = Color.Violet;
-        public static Color borderColor = Color.Black;
-        public bool selected;
+        /// <summary>
+        /// Цвет заливки прямоугольника
+        /// </summary>
+        public Color FillColor { get; set; }
+        /// <summary>
+        /// Цвет границы выделенного прямоугольника
+        /// </summary>
+        public static Color SelectBorderColor = Color.Violet;
+        /// <summary>
+        /// Цвет границы не выделенного прямоугольника
+        /// </summary>
+        public static Color BorderColor = Color.Black;
+        /// <summary>
+        /// Выбран ли прямоугольник
+        /// </summary>
+        public bool Selected { get; set; }
 
         /// <summary>
         /// Сдвиг прямоугольника на указанные значения
@@ -25,13 +55,28 @@ namespace AzizaVKR
         /// <param name="dy">сдвиг по вертикали</param>
         public void Move(int dx, int dy)
         {
-            x += dx;
-            y += dy;
+            X += dx;
+            Y += dy;
         }
+        /// <summary>
+        /// Проверка на возможность нахождение в данной позиции
+        /// Вернет true если норм
+        /// false - если выход за границы
+        /// </summary>
+        /// <param name="mw">ширина, за которую нельзя выйти</param>
+        /// <param name="mh">высота, за которую нельзя выйти</param>
+        /// <returns></returns>
         bool ValidPosition(int mw, int mh)
         {
-            return x >= 0 && y >= 0 && x + w <= mw && y + h <= mh;
+            return X >= 0 && Y >= 0 && X + Width <= mw && Y + Height <= mh;
         }
+        /// <summary>
+        /// Безопасное движение - с проверкой на границы
+        /// </summary>
+        /// <param name="dx">на сколько двигаем по иксу</param>
+        /// <param name="dy">на сколько двигаем по игреку</param>
+        /// <param name="mw">граница по ширине</param>
+        /// <param name="mh">граница по игреку</param>
         public void SafeMove(int dx, int dy, int mw, int mh)
         {
             Move(dx, dy);
@@ -44,25 +89,25 @@ namespace AzizaVKR
         /// </summary>
         /// <param name="rect"></param>
         /// <returns></returns>
-        public bool CheckCross(myRectangle rect)
+        public bool CheckCross(MyRectangle rect)
         {
-            if(rect.x<=x&&x<=rect.x+rect.w)
+            if (rect.X <= X && X <= rect.X + rect.Width)
             {
-                if (rect.y <= y && y <= rect.y + rect.h)
+                if (rect.Y <= Y && Y <= rect.Y + rect.Height)
                     return true;
-                if (rect.y <= y+h && y+h <= rect.y + rect.h)
+                if (rect.Y <= Y + Height && Y + Height <= rect.Y + rect.Height)
                     return true;
             }
-            if (rect.x <= x+w && x+w <= rect.x + rect.w)
+            if (rect.X <= X + Width && X + Width <= rect.X + rect.Width)
             {
-                if (rect.y <= y && y <= rect.y + rect.h)
+                if (rect.Y <= Y && Y <= rect.Y + rect.Height)
                     return true;
-                if (rect.y <= y + h && y + h <= rect.y + rect.h)
+                if (rect.Y <= Y + Height && Y + Height <= rect.Y + rect.Height)
                     return true;
             }
 
-            if (x <= rect.x && rect.x <= x + w)
-                if (y <= rect.y && rect.y <= y + h)
+            if (X <= rect.X && rect.X <= X + Width)
+                if (Y <= rect.Y && rect.Y <= Y + Height)
                     return true;
 
             return false;
@@ -76,8 +121,8 @@ namespace AzizaVKR
         public bool IsIn(Point p)
         {
             return
-                ((x <= p.X) && (p.X <= x + w)) &&
-                ((y <= p.Y) && (p.Y <= y + h));
+                ((X <= p.X) && (p.X <= X + Width)) &&
+                ((Y <= p.Y) && (p.Y <= Y + Height));
         }
         /// <summary>
         /// Рисование рпямоугольника на графике
@@ -85,11 +130,11 @@ namespace AzizaVKR
         /// <param name="gr"></param>
         public void Draw(Graphics gr)
         {
-            gr.FillRectangle(new SolidBrush(color), x, y, w, h);
-            if (selected)
-                gr.DrawRectangle(new Pen(selectColor, 2), x - 2, y - 2, w + 2, h + 2);
+            gr.FillRectangle(new SolidBrush(FillColor), X, Y, Width, Height);
+            if (Selected)
+                gr.DrawRectangle(new Pen(SelectBorderColor, 2), X - 2, Y - 2, Width + 2, Height + 2);
             else
-                gr.DrawRectangle(new Pen(borderColor, 2), x, y, w, h);
+                gr.DrawRectangle(new Pen(BorderColor, 2), X, Y, Width, Height);
         }
 
         /// <summary>
@@ -98,20 +143,20 @@ namespace AzizaVKR
         /// <param name="mr2"></param>
         /// <returns></returns>
 
-        public bool isNearest(myRectangle mr2)
+        public bool isNearest(MyRectangle mr2)
         {
 
-            if (this.x == mr2.x && this.w == mr2.w)
+            if (this.X == mr2.X && this.Width == mr2.Width)
             {
-                if (this.y == mr2.y + mr2.h || this.y + this.h == mr2.y)
+                if (this.Y == mr2.Y + mr2.Height || this.Y + this.Height == mr2.Y)
                     return true;
                 else
                     return false;
             }
 
-            if (this.y == mr2.y && this.h == mr2.h)
+            if (this.Y == mr2.Y && this.Height == mr2.Height)
             {
-                if (this.x == mr2.x + mr2.w || this.x + this.w == mr2.x)
+                if (this.X == mr2.X + mr2.Width || this.X + this.Width == mr2.X)
                     return true;
                 else
                     return false;
@@ -126,32 +171,32 @@ namespace AzizaVKR
         /// <param name="mr1"></param>
         /// <param name="mr2"></param>
         /// <returns></returns>
-        public static myRectangle operator +(myRectangle mr1, myRectangle mr2)
+        public static MyRectangle operator +(MyRectangle mr1, MyRectangle mr2)
         {
             if (!mr1.isNearest(mr2))
                 throw new ArgumentException("Не соседи");
 
-            if (mr1.x == mr2.x && mr1.w == mr2.w)
+            if (mr1.X == mr2.X && mr1.Width == mr2.Width)
             {
-                return new myRectangle()
+                return new MyRectangle()
                 {
-                    x = mr1.x,
-                    w = mr1.w,
-                    y = Math.Min(mr2.y, mr1.y),
-                    h = mr1.h + mr2.h,
-                    color = mr1.color
+                    X = mr1.X,
+                    Width = mr1.Width,
+                    Y = Math.Min(mr2.Y, mr1.Y),
+                    Height = mr1.Height + mr2.Height,
+                    FillColor = mr1.FillColor
                 };
             }
 
-            if (mr1.y == mr2.y && mr1.h == mr2.h)
+            if (mr1.Y == mr2.Y && mr1.Height == mr2.Height)
             {
-                return new myRectangle()
+                return new MyRectangle()
                 {
-                    x = Math.Min(mr2.x, mr1.x),
-                    w = mr1.w + mr2.w,
-                    y = mr1.y,
-                    h = mr1.h,
-                    color = mr1.color
+                    X = Math.Min(mr2.X, mr1.X),
+                    Width = mr1.Width + mr2.Width,
+                    Y = mr1.Y,
+                    Height = mr1.Height,
+                    FillColor = mr1.FillColor
                 };
             }
 
@@ -165,7 +210,7 @@ namespace AzizaVKR
         /// <returns></returns>
         public int getM()
         {
-            return w * h;
+            return Width * Height;
         }
 
         /// <summary>
@@ -174,7 +219,7 @@ namespace AzizaVKR
         /// <returns></returns>
         public override string ToString()
         {
-            return $"x={x} y={y} w={w} h={h}";
+            return $"x={X} y={Y} w={Width} h={Height}";
         }
 
         /// <summary>
@@ -182,22 +227,26 @@ namespace AzizaVKR
         /// </summary>
         /// <param name="mr">прямоугольник, который проверяем на вхождение в данный</param>
         /// <returns></returns>
-        public bool isPart(myRectangle mr)
+        public bool isPart(MyRectangle mr)
         {
-            return mr.x >= this.x &&
-                mr.y >= this.y &&
-                mr.y + mr.h <= this.y + this.h &&
-                mr.x + mr.w <= this.x + this.w;
+            return mr.X >= this.X &&
+                mr.Y >= this.Y &&
+                mr.Y + mr.Height <= this.Y + this.Height &&
+                mr.X + mr.Width <= this.X + this.Width;
         }
-        public myRectangle Copy()
+        /// <summary>
+        /// Возвращает копию текущего прямоугольника
+        /// </summary>
+        /// <returns></returns>
+        public MyRectangle Copy()
         {
-            return new myRectangle()
+            return new MyRectangle()
             {
-                x = this.x,
-                y = this.y,
-                w = this.w,
-                h = this.h,
-                color = this.color
+                X = this.X,
+                Y = this.Y,
+                Width = this.Width,
+                Height = this.Height,
+                FillColor = this.FillColor
             };
         }
     }

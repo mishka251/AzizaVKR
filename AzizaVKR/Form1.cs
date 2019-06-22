@@ -15,21 +15,21 @@ namespace AzizaVKR
         public Form1()
         {
             InitializeComponent();
-            startRects = new List<myRectangle>();
-            borderRects = new List<myRectangle>();
-            resultRects = new List<myRectangle>();
+            startRects = new List<MyRectangle>();
+            borderRects = new List<MyRectangle>();
+            resultRects = new List<MyRectangle>();
             rand = new Random();
         }
         /// <summary>
         /// Прямоугольники начального разбиения
         /// </summary>
-        List<myRectangle> startRects;
+        List<MyRectangle> startRects;
 
-        List<myRectangle> resultRects;
+        List<MyRectangle> resultRects;
         /// <summary>
         /// Прямоугольники запретных областей
         /// </summary>
-        List<myRectangle> borderRects;
+        List<MyRectangle> borderRects;
         /// <summary>
         /// Рандом для случ. цвета
         /// </summary>
@@ -50,13 +50,13 @@ namespace AzizaVKR
         {
             boredrrsX = new List<int>();
             boredresY = new List<int>();
-            foreach (myRectangle mr in borderRects)
+            foreach (MyRectangle mr in borderRects)
             {
-                boredrrsX.Add(mr.x);
-                boredrrsX.Add(mr.x + mr.w);
+                boredrrsX.Add(mr.X);
+                boredrrsX.Add(mr.X + mr.Width);
 
-                boredresY.Add(mr.y);
-                boredresY.Add(mr.y + mr.h);
+                boredresY.Add(mr.Y);
+                boredresY.Add(mr.Y + mr.Height);
             }
 
             boredrrsX.Add(0);//x picturebox boreders
@@ -92,17 +92,17 @@ namespace AzizaVKR
         /// </summary>
         void getAllRectangles()
         {
-            startRects = new List<myRectangle>();
+            startRects = new List<MyRectangle>();
             for (int i = 0; i < boredrrsX.Count - 1; i++)
             {
                 for (int j = 0; j < boredresY.Count - 1; j++)
                 {
-                    myRectangle mr = new myRectangle();
-                    mr.x = boredrrsX[i];
-                    mr.y = boredresY[j];
-                    mr.w = boredrrsX[i + 1] - boredrrsX[i];
-                    mr.h = boredresY[j + 1] - boredresY[j];
-                    mr.color = getRandColor();
+                    MyRectangle mr = new MyRectangle();
+                    mr.X = boredrrsX[i];
+                    mr.Y = boredresY[j];
+                    mr.Width = boredrrsX[i + 1] - boredrrsX[i];
+                    mr.Height = boredresY[j + 1] - boredresY[j];
+                    mr.FillColor = getRandColor();
 
 
 
@@ -134,26 +134,26 @@ namespace AzizaVKR
 
                 for (int i = 0; i < resultRects.Count - 1; i++)
                 {
-                    myRectangle mri = resultRects[i];
+                    MyRectangle mri = resultRects[i];
 
-                    Dictionary<double, List<myRectangle>> nearests = new Dictionary<double, List<myRectangle>>();
+                    Dictionary<double, List<MyRectangle>> nearests = new Dictionary<double, List<MyRectangle>>();
 
                     for (int j = 0; j < resultRects.Count; j++)
                         if (i != j && mri.isNearest(resultRects[j]))
                         {
                             double O = 0;
                             double h = (double)(pictureBox1.Height);
-                            double lambda = (mri.w + resultRects[j].w) / h;
+                            double lambda = (mri.Width + resultRects[j].Width) / h;
                             O = (mri.getM() + resultRects[j].getM()) / lambda;
                             if (!nearests.ContainsKey(O))
-                                nearests.Add(O, new List<myRectangle>());
+                                nearests.Add(O, new List<MyRectangle>());
                             nearests[O].Add(resultRects[j]);
 
                         }
 
                     if (nearests.Count > 0)
                     {
-                        myRectangle near = nearests.Last().Value.First();
+                        MyRectangle near = nearests.Last().Value.First();
 
                         resultRects[i] += near;
                         resultRects.Remove(near);
@@ -179,9 +179,9 @@ namespace AzizaVKR
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics gr = Graphics.FromImage(bmp);
 
-            foreach (myRectangle mr in startRects)
+            foreach (MyRectangle mr in startRects)
                 mr.Draw(gr);
-            foreach (myRectangle mr in borderRects)
+            foreach (MyRectangle mr in borderRects)
                 mr.Draw(gr);
 
 
@@ -193,17 +193,22 @@ namespace AzizaVKR
             Bitmap bmp2 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
             Graphics gr2 = Graphics.FromImage(bmp2);
 
-            foreach (myRectangle mr in resultRects)
+            foreach (MyRectangle mr in resultRects)
                 mr.Draw(gr2);
 
-            foreach (myRectangle mr in borderRects)
+            foreach (MyRectangle mr in borderRects)
                 mr.Draw(gr2);
 
 
             pictureBox2.Image = bmp2;
         }
 
-
+        /// <summary>
+        /// Проверка пересечения - все ли прямоугольники не пересекаются друг с другому
+        /// true - если ошибка, кто-то с кем-то пересекся
+        /// false - всё ок
+        /// </summary>
+        /// <returns></returns>
         bool checkRectCross()
         {
             return borderRects.Any(
@@ -259,7 +264,7 @@ namespace AzizaVKR
 
         int stX, stY;
         bool draggedRect = false;
-        myRectangle dragged = null;
+        MyRectangle dragged = null;
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             stX = e.X;
@@ -267,7 +272,7 @@ namespace AzizaVKR
 
             foreach (var borRect in borderRects)
             {
-                borRect.selected = false;
+                borRect.Selected = false;
             }
 
 
@@ -275,7 +280,7 @@ namespace AzizaVKR
             if (draggedRect)
             {
                 dragged = borderRects.Find(bord => bord.IsIn(e.Location));
-                dragged.selected = true;
+                dragged.Selected = true;
             }
         }
 
@@ -318,50 +323,57 @@ namespace AzizaVKR
 
             int mw = pictureBox1.Width;
             int mh = pictureBox1.Height;
+            if (!borderRects.Any(bord => bord.Selected))
+            {
+                return;
+            }
 
+            var selectedRect = borderRects.Find(bord => bord.Selected);
 
             if (e.KeyData == Keys.Delete)
             {
-                if (borderRects.Any(bord => bord.selected))
-                {
-                    borderRects.Remove(borderRects.Find(bord => bord.selected));
-                }
+                borderRects.Remove(selectedRect);
             }
 
             if (e.KeyData == Keys.Up)
             {
-                if (borderRects.Any(bord => bord.selected))
+                selectedRect.SafeMove(0, -10, mw, mh);
+                if (checkRectCross())
                 {
-                    borderRects.Find(bord => bord.selected).SafeMove(0, -10, mw, mh);
+                    selectedRect.SafeMove(0, 10, mw, mh);
                 }
             }
 
             if (e.KeyData == Keys.Down)
             {
-                if (borderRects.Any(bord => bord.selected))
+                selectedRect.SafeMove(0, 10, mw, mh);
+                if (checkRectCross())
                 {
-                    borderRects.Find(bord => bord.selected).SafeMove(0, 10, mw, mh);
+                    selectedRect.SafeMove(0, 10, mw, mh);
                 }
+
             }
 
             if (e.KeyData == Keys.Left)
             {
-                if (borderRects.Any(bord => bord.selected))
+                selectedRect.SafeMove(-10, 0, mw, mh);
+                if (checkRectCross())
                 {
-                    borderRects.Find(bord => bord.selected).SafeMove(-10, 0, mw, mh);
+                    selectedRect.SafeMove(0, 10, mw, mh);
                 }
+
             }
 
             if (e.KeyData == Keys.Right)
             {
-                if (borderRects.Any(bord => bord.selected))
+                selectedRect.SafeMove(10, 0, mw, mh);
+                if (checkRectCross())
                 {
-                    borderRects.Find(bord => bord.selected).SafeMove(10, 0, mw, mh);
+                    selectedRect.SafeMove(0, 10, mw, mh);
                 }
             }
 
             ShowPic();
-
 
         }
 
@@ -428,13 +440,13 @@ namespace AzizaVKR
             if (Math.Abs(stX - e.X) < 20 || Math.Abs(stY - e.Y) < 10)
                 return;
 
-            myRectangle mr = new myRectangle
+            MyRectangle mr = new MyRectangle
             {
-                x = myRound(Math.Min(e.X, stX)),
-                y = myRound(Math.Min(e.Y, stY)),
-                w = myRound(Math.Abs(stX - e.X)),
-                h = myRound(Math.Abs(stY - e.Y)),
-                color = Color.Black
+                X = myRound(Math.Min(e.X, stX)),
+                Y = myRound(Math.Min(e.Y, stY)),
+                Width = myRound(Math.Abs(stX - e.X)),
+                Height = myRound(Math.Abs(stY - e.Y)),
+                FillColor = Color.Black
             };
             borderRects.Add(mr);
             if (checkRectCross())
