@@ -28,6 +28,46 @@ namespace AzizaVKR
             x += dx;
             y += dy;
         }
+        bool ValidPosition(int mw, int mh)
+        {
+            return x >= 0 && y >= 0 && x + w <= mw && y + h <= mh;
+        }
+        public void SafeMove(int dx, int dy, int mw, int mh)
+        {
+            Move(dx, dy);
+            if (!ValidPosition(mw, mh))
+                Move(-dx, -dy);
+        }
+
+        /// <summary>
+        /// Есть ли пересечение двух прямоугольников
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public bool CheckCross(myRectangle rect)
+        {
+            if(rect.x<=x&&x<=rect.x+rect.w)
+            {
+                if (rect.y <= y && y <= rect.y + rect.h)
+                    return true;
+                if (rect.y <= y+h && y+h <= rect.y + rect.h)
+                    return true;
+            }
+            if (rect.x <= x+w && x+w <= rect.x + rect.w)
+            {
+                if (rect.y <= y && y <= rect.y + rect.h)
+                    return true;
+                if (rect.y <= y + h && y + h <= rect.y + rect.h)
+                    return true;
+            }
+
+            if (x <= rect.x && rect.x <= x + w)
+                if (y <= rect.y && rect.y <= y + h)
+                    return true;
+
+            return false;
+        }
+
         /// <summary>
         /// Проверка на нахождеине точки в прямоугольники
         /// </summary>

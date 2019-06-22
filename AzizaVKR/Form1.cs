@@ -119,10 +119,10 @@ namespace AzizaVKR
         void calcRectangles()
         {
             bool has_changes = true;
-            double h = (double)pictureBox1.Height;
+            // double h = (double)pictureBox1.Width;
 
             resultRects.Clear();
-            foreach(var rect in startRects)
+            foreach (var rect in startRects)
             {
                 resultRects.Add(rect.Copy());
             }
@@ -142,6 +142,7 @@ namespace AzizaVKR
                         if (i != j && mri.isNearest(resultRects[j]))
                         {
                             double O = 0;
+                            double h = (double)(pictureBox1.Height);
                             double lambda = (mri.w + resultRects[j].w) / h;
                             O = (mri.getM() + resultRects[j].getM()) / lambda;
                             if (!nearests.ContainsKey(O))
@@ -194,6 +195,7 @@ namespace AzizaVKR
 
             foreach (myRectangle mr in resultRects)
                 mr.Draw(gr2);
+
             foreach (myRectangle mr in borderRects)
                 mr.Draw(gr2);
 
@@ -201,8 +203,26 @@ namespace AzizaVKR
             pictureBox2.Image = bmp2;
         }
 
+
+        bool checkRectCross()
+        {
+            return borderRects.Any(
+                bordRect
+                => borderRects.Any(
+                    bordRect2
+                    => bordRect != bordRect2
+                    && bordRect.CheckCross(bordRect2)));
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            if(checkRectCross())
+            {
+                MessageBox.Show("Пересечение границ");
+                return;
+            }
+
+
             getBordersXY();
             getAllRectangles();
             calcRectangles();
@@ -272,7 +292,12 @@ namespace AzizaVKR
 
             if (!draggedRect)
                 return;
-            dragged.Move(e.X - stX, e.Y - stY);
+
+
+            int mw = pictureBox1.Width;
+            int mh = pictureBox1.Height;
+
+            dragged.SafeMove(e.X - stX, e.Y - stY, mw, mh);
             stX = e.X;
             stY = e.Y;
             ShowPic();
@@ -280,6 +305,11 @@ namespace AzizaVKR
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
+
+            int mw = pictureBox1.Width;
+            int mh = pictureBox1.Height;
+
+
             if (e.KeyData == Keys.Delete)
             {
                 if (borderRects.Any(bord => bord.selected))
@@ -292,7 +322,7 @@ namespace AzizaVKR
             {
                 if (borderRects.Any(bord => bord.selected))
                 {
-                    borderRects.Find(bord => bord.selected).Move(0, -10);
+                    borderRects.Find(bord => bord.selected).SafeMove(0, -10, mw, mh);
                 }
             }
 
@@ -300,7 +330,7 @@ namespace AzizaVKR
             {
                 if (borderRects.Any(bord => bord.selected))
                 {
-                    borderRects.Find(bord => bord.selected).Move(0, 10);
+                    borderRects.Find(bord => bord.selected).SafeMove(0, 10, mw, mh);
                 }
             }
 
@@ -308,7 +338,7 @@ namespace AzizaVKR
             {
                 if (borderRects.Any(bord => bord.selected))
                 {
-                    borderRects.Find(bord => bord.selected).Move(-10, 0);
+                    borderRects.Find(bord => bord.selected).SafeMove(-10, 0, mw, mh);
                 }
             }
 
@@ -316,7 +346,7 @@ namespace AzizaVKR
             {
                 if (borderRects.Any(bord => bord.selected))
                 {
-                    borderRects.Find(bord => bord.selected).Move(10, 0);
+                    borderRects.Find(bord => bord.selected).SafeMove(10, 0, mw, mh);
                 }
             }
 
@@ -330,9 +360,50 @@ namespace AzizaVKR
             return 10 * (int)Math.Round(num / 10.0);
         }
 
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            resizeElements();
+            ShowPic();
+        }
+
+        void resizeElements()
+        {
+
+            int btnH = 40;
+            int padd = 10;
+            int h = this.ClientSize.Height;
+            int w = this.ClientSize.Width;
+
+            pictureBox1.Left = 0;
+            pictureBox1.Width = w;
+            pictureBox1.Top = 0;
+            pictureBox1.Height = (h - btnH) / 2 - 2 * padd;
+
+            pictureBox2.Left = 0;
+            pictureBox2.Width = w;
+            pictureBox2.Top = (h + btnH) / 2 + 2 * padd;
+            pictureBox2.Height = (h - btnH) / 2 - 2 * padd;
+
+            button1.Top = (h - btnH) / 2;
+            button2.Top = (h - btnH) / 2;
+            button3.Top = (h - btnH) / 2;
+
+
+            button1.Height = btnH;
+            button2.Height = btnH;
+            button3.Height = btnH;
+
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            resizeElements();
+        }
+
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-   
+
             if (draggedRect)
             {
                 draggedRect = false;
@@ -346,7 +417,7 @@ namespace AzizaVKR
             myRectangle mr = new myRectangle
             {
                 x = myRound(Math.Min(e.X, stX)),
-                y = myRound(Math.Min(e.Y, stY) ),
+                y = myRound(Math.Min(e.Y, stY)),
                 w = myRound(Math.Abs(stX - e.X)),
                 h = myRound(Math.Abs(stY - e.Y)),
                 color = Color.Black
