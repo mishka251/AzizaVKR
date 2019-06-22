@@ -216,7 +216,7 @@ namespace AzizaVKR
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(checkRectCross())
+            if (checkRectCross())
             {
                 MessageBox.Show("Пересечение границ");
                 return;
@@ -298,8 +298,18 @@ namespace AzizaVKR
             int mh = pictureBox1.Height;
 
             dragged.SafeMove(e.X - stX, e.Y - stY, mw, mh);
-            stX = e.X;
-            stY = e.Y;
+
+            if (checkRectCross())
+            {
+                dragged.SafeMove(-e.X + stX, -e.Y + stY, mw, mh);
+            }
+            else
+            {
+                stX = e.X;
+                stY = e.Y;
+            }
+
+
             ShowPic();
         }
 
@@ -363,6 +373,10 @@ namespace AzizaVKR
         private void Form1_Resize(object sender, EventArgs e)
         {
             resizeElements();
+            getBordersXY();
+            getAllRectangles();
+            calcRectangles();
+            ShowPic();
             ShowPic();
         }
 
@@ -423,6 +437,11 @@ namespace AzizaVKR
                 color = Color.Black
             };
             borderRects.Add(mr);
+            if (checkRectCross())
+            {
+                MessageBox.Show("Пересечение границ");
+                borderRects.Remove(mr);
+            }
             ShowPic();
         }
 
