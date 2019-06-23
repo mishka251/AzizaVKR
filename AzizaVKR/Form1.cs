@@ -418,10 +418,28 @@ namespace AzizaVKR
             button3.Top = (h - btnH) / 2;
             button4.Top = (h - btnH) / 2;
 
+            label1.Top = (h - btnH) / 2;
+            label2.Top = (h - btnH) / 2;
+            nuW.Top = (h - btnH) / 2;
+            nuH.Top = (h - btnH) / 2;
+
             button1.Height = btnH;
             button2.Height = btnH;
             button3.Height = btnH;
             button4.Height = btnH;
+
+
+            label1.Height = btnH;
+            label2.Height = btnH;
+            nuW.Height = btnH;
+            nuH.Height = btnH;
+
+
+
+
+
+            nuH.Value = pictureBox1.Height;
+            nuW.Value = pictureBox1.Width;
 
         }
 
@@ -430,6 +448,12 @@ namespace AzizaVKR
             resizeElements();
             toolTip1.SetToolTip(pictureBox2, "Rectangle");
             toolTip1.ShowAlways = true;
+            nuW.Value = pictureBox1.Width;
+            nuH.Value = pictureBox1.Height;
+
+            nuW.Maximum = SystemInformation.PrimaryMonitorSize.Width - (this.Width-this.ClientSize.Width);
+            nuH.Maximum = (SystemInformation.PrimaryMonitorSize.Height-(this.Height-this.ClientSize.Height))/2;
+
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
@@ -496,17 +520,33 @@ namespace AzizaVKR
             if (resultRects.Any(rect => rect.IsIn(e.Location)))
             {
                 MyRectangle rect = resultRects.Find(rect1 => rect1.IsIn(e.Location));
-                toolTip1.ToolTipTitle = "result rect "+rect.ToString();
+                toolTip1.ToolTipTitle = "result rect " + rect.ToString();
                 toolTip1.Tag = rect;
             }
 
             if (borderRects.Any(rect => rect.IsIn(e.Location)))
             {
                 MyRectangle rect = borderRects.Find(rect1 => rect1.IsIn(e.Location));
-                toolTip1.ToolTipTitle = "border rect "+rect.ToString();
+                toolTip1.ToolTipTitle = "border rect " + rect.ToString();
                 toolTip1.Tag = rect;
             }
 
+        }
+
+        private void nuW_ValueChanged(object sender, EventArgs e)
+        {
+            int dw = pictureBox1.Width - (int)nuW.Value;       
+
+            this.Width-=dw;
+
+            
+        }
+
+        private void nuH_ValueChanged(object sender, EventArgs e)
+        {
+            int dh = pictureBox1.Height - (int)nuH.Value;
+
+            this.Height -= 2*dh;
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -526,10 +566,10 @@ namespace AzizaVKR
             int y = Math.Max(0, myRound(Math.Min(e.Y, stY)));
             MyRectangle mr = new MyRectangle
             {
-                X =x ,
+                X = x,
                 Y = y,
-                Width = Math.Min(pictureBox1.Width-x, myRound(Math.Abs(stX - e.X))),
-                Height = Math.Min(pictureBox1.Height-y, myRound(Math.Abs(stY - e.Y))),
+                Width = Math.Min(pictureBox1.Width - x, myRound(Math.Abs(stX - e.X))),
+                Height = Math.Min(pictureBox1.Height - y, myRound(Math.Abs(stY - e.Y))),
                 FillColor = Color.Black
             };
             borderRects.Add(mr);
