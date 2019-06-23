@@ -323,6 +323,9 @@ namespace AzizaVKR
 
             int mw = pictureBox1.Width;
             int mh = pictureBox1.Height;
+
+
+
             if (!borderRects.Any(bord => bord.Selected))
             {
                 return;
@@ -413,18 +416,20 @@ namespace AzizaVKR
             button1.Top = (h - btnH) / 2;
             button2.Top = (h - btnH) / 2;
             button3.Top = (h - btnH) / 2;
-
+            button4.Top = (h - btnH) / 2;
 
             button1.Height = btnH;
             button2.Height = btnH;
             button3.Height = btnH;
-
+            button4.Height = btnH;
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             resizeElements();
+            toolTip1.SetToolTip(pictureBox2, "Rectangle");
+            toolTip1.ShowAlways = true;
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
@@ -439,7 +444,7 @@ namespace AzizaVKR
             {
                 MyRectangle clicked = borderRects.Find(rect => rect.IsIn(e.Location));
                 InputRect inputRect = new InputRect(pictureBox1.Width, pictureBox1.Height,
-                    clicked.X,clicked.Y,
+                    clicked.X, clicked.Y,
                     clicked.Width, clicked.Height);
                 if (inputRect.ShowDialog() == DialogResult.OK)
                 {
@@ -456,7 +461,7 @@ namespace AzizaVKR
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+
             InputRect inputRect = new InputRect(pictureBox1.Width, pictureBox1.Height);
             if (inputRect.ShowDialog() == DialogResult.OK)
             {
@@ -466,12 +471,12 @@ namespace AzizaVKR
                     Y = inputRect.y,
                     Width = inputRect.w,
                     Height = inputRect.h,
-                    FillColor=Color.Black
+                    FillColor = Color.Black
                 };
 
                 borderRects.Add(newRect);
 
-                if(checkRectCross())
+                if (checkRectCross())
                 {
                     MessageBox.Show("Пересечение!");
                     borderRects.Remove(newRect);
@@ -479,6 +484,29 @@ namespace AzizaVKR
 
             }
             ShowPic();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (resultRects.Any(rect => rect.IsIn(e.Location)))
+            {
+                MyRectangle rect = resultRects.Find(rect1 => rect1.IsIn(e.Location));
+                toolTip1.ToolTipTitle = "result rect "+rect.ToString();
+                toolTip1.Tag = rect;
+            }
+
+            if (borderRects.Any(rect => rect.IsIn(e.Location)))
+            {
+                MyRectangle rect = borderRects.Find(rect1 => rect1.IsIn(e.Location));
+                toolTip1.ToolTipTitle = "border rect "+rect.ToString();
+                toolTip1.Tag = rect;
+            }
+
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)

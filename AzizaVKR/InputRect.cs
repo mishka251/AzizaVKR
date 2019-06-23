@@ -41,6 +41,14 @@ namespace AzizaVKR
             nuY.Maximum = maxH - nuH.Value;
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Abort;
+            this.DialogResult = DialogResult.Abort;
+            this.DialogResult = DialogResult.Abort;
+            this.DialogResult = DialogResult.Abort;
+        }
+
         private void nuW_ValueChanged(object sender, EventArgs e)
         {
             if (nuX.Value > maxW - nuW.Value)
