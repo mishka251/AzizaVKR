@@ -91,23 +91,23 @@ namespace AzizaVKR
         /// <returns></returns>
         public bool CheckCross(MyRectangle rect)
         {
-            if (rect.X <= X && X <= rect.X + rect.Width)
+            if (rect.X < X && X < rect.X + rect.Width)
             {
-                if (rect.Y <= Y && Y <= rect.Y + rect.Height)
+                if (rect.Y < Y && Y < rect.Y + rect.Height)
                     return true;
-                if (rect.Y <= Y + Height && Y + Height <= rect.Y + rect.Height)
+                if (rect.Y < Y + Height && Y + Height <rect.Y + rect.Height)
                     return true;
             }
-            if (rect.X <= X + Width && X + Width <= rect.X + rect.Width)
+            if (rect.X < X + Width && X + Width <rect.X + rect.Width)
             {
-                if (rect.Y <= Y && Y <= rect.Y + rect.Height)
+                if (rect.Y < Y && Y < rect.Y + rect.Height)
                     return true;
-                if (rect.Y <= Y + Height && Y + Height <= rect.Y + rect.Height)
+                if (rect.Y < Y + Height && Y + Height < rect.Y + rect.Height)
                     return true;
             }
 
-            if (X <= rect.X && rect.X <= X + Width)
-                if (Y <= rect.Y && rect.Y <= Y + Height)
+            if (X < rect.X && rect.X < X + Width)
+                if (Y < rect.Y && rect.Y < Y + Height)
                     return true;
 
             return false;
@@ -135,6 +135,24 @@ namespace AzizaVKR
                 gr.DrawRectangle(new Pen(SelectBorderColor, 2), X - 2, Y - 2, Width + 2, Height + 2);
             else
                 gr.DrawRectangle(new Pen(BorderColor, 2), X, Y, Width, Height);
+        }
+
+        /// <summary>
+        /// Периметр без внешних гранец
+        /// </summary>
+        /// <returns></returns>
+        public int P(int mw, int mh)
+        {
+            int p = 0;
+            if (X > 0)
+                p += Height;
+            if (Y > 0)
+                p += Width;
+            if (X + Width < mw)
+                p += Height;
+            if (Y + Height < mh)
+                p += Width;
+            return p;
         }
 
         /// <summary>

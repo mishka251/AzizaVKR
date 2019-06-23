@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace AzizaVKR
 {
@@ -227,11 +228,24 @@ namespace AzizaVKR
                 return;
             }
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             getBordersXY();
             getAllRectangles();
             calcRectangles();
             ShowPic();
+            sw.Stop();
+
+            int mw = pictureBox1.Width;
+            int mh = pictureBox1.Height;
+
+            int p = (resultRects.Sum(rect=>rect.P(mw, mh)) - borderRects.Sum(rect=>rect.P(mw, mh)))/2;
+
+
+            lblRectCnt.Text = resultRects.Count.ToString();
+            lblTime.Text = $"{sw.ElapsedMilliseconds} ms";
+            lblP.Text = p.ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -397,45 +411,22 @@ namespace AzizaVKR
 
         void resizeElements()
         {
+            int btnW = this.ClientSize.Width - button1.Left - 10;
 
-            int btnH = 40;
-            int padd = 10;
+            
+            int padd = 5;
             int h = this.ClientSize.Height;
-            int w = this.ClientSize.Width;
+            int w = button1.Left - 10;
 
             pictureBox1.Left = 0;
             pictureBox1.Width = w;
             pictureBox1.Top = 0;
-            pictureBox1.Height = (h - btnH) / 2 - 2 * padd;
+            pictureBox1.Height = h/2- 2*padd;
 
             pictureBox2.Left = 0;
             pictureBox2.Width = w;
-            pictureBox2.Top = (h + btnH) / 2 + 2 * padd;
-            pictureBox2.Height = (h - btnH) / 2 - 2 * padd;
-
-            button1.Top = (h - btnH) / 2;
-            button2.Top = (h - btnH) / 2;
-            button3.Top = (h - btnH) / 2;
-            button4.Top = (h - btnH) / 2;
-
-            label1.Top = (h - btnH) / 2;
-            label2.Top = (h - btnH) / 2;
-            nuW.Top = (h - btnH) / 2;
-            nuH.Top = (h - btnH) / 2;
-
-            button1.Height = btnH;
-            button2.Height = btnH;
-            button3.Height = btnH;
-            button4.Height = btnH;
-
-
-            label1.Height = btnH;
-            label2.Height = btnH;
-            nuW.Height = btnH;
-            nuH.Height = btnH;
-
-
-
+            pictureBox2.Top = h /2 + padd;
+            pictureBox2.Height = h / 2 - 2* padd;
 
 
             nuH.Value = pictureBox1.Height;
@@ -452,7 +443,7 @@ namespace AzizaVKR
             nuH.Value = pictureBox1.Height;
 
             nuW.Maximum = SystemInformation.PrimaryMonitorSize.Width - (this.Width-this.ClientSize.Width);
-            nuH.Maximum = (SystemInformation.PrimaryMonitorSize.Height-(this.Height-this.ClientSize.Height))/2;
+            nuH.Maximum = (SystemInformation.PrimaryMonitorSize.Height-(this.Height-this.ClientSize.Height))/2-30;
 
         }
 
@@ -535,18 +526,26 @@ namespace AzizaVKR
 
         private void nuW_ValueChanged(object sender, EventArgs e)
         {
-            int dw = pictureBox1.Width - (int)nuW.Value;       
-
-            this.Width-=dw;
-
-            
+            if(pictureBox1.Width!=nuW.Value)
+            {
+                pictureBox1.Width = (int)nuW.Value;
+                pictureBox2.Width = (int)nuW.Value;
+            }  
         }
 
         private void nuH_ValueChanged(object sender, EventArgs e)
         {
-            int dh = pictureBox1.Height - (int)nuH.Value;
+            if (pictureBox1.Height != nuH.Value)
+            {
+                pictureBox1.Height = (int)nuH.Value;
+                pictureBox2.Height = (int)nuH.Value;
+                pictureBox2.Top = this.ClientSize.Height - pictureBox2.Height-40;
+            }
+        }
 
-            this.Height -= 2*dh;
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)

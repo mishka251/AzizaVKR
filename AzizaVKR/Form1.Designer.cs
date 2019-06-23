@@ -41,6 +41,12 @@
             this.nuH = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblRectCnt = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblP = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuW)).BeginInit();
@@ -51,9 +57,9 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(2, 1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(930, 195);
+            this.pictureBox1.Size = new System.Drawing.Size(741, 216);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -65,9 +71,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(0, 213);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(809, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(146, 31);
+            this.button1.Size = new System.Drawing.Size(109, 31);
             this.button1.TabIndex = 1;
             this.button1.Text = "Расчёт";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,9 +83,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(161, 213);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(809, 49);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 31);
+            this.button2.Size = new System.Drawing.Size(109, 31);
             this.button2.TabIndex = 2;
             this.button2.Text = "Очистить всё";
             this.button2.UseVisualStyleBackColor = true;
@@ -87,10 +95,11 @@
             // 
             // button3
             // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button3.Location = new System.Drawing.Point(279, 214);
+            this.button3.Location = new System.Drawing.Point(809, 86);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(155, 30);
+            this.button3.Size = new System.Drawing.Size(109, 42);
             this.button3.TabIndex = 3;
             this.button3.Text = "Очистить результаты";
             this.button3.UseVisualStyleBackColor = true;
@@ -101,18 +110,19 @@
             // 
             this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(0, 255);
+            this.pictureBox2.Location = new System.Drawing.Point(2, 223);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(930, 209);
+            this.pictureBox2.Size = new System.Drawing.Size(741, 225);
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(440, 216);
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(809, 145);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(193, 27);
+            this.button4.Size = new System.Drawing.Size(109, 38);
             this.button4.TabIndex = 5;
             this.button4.Text = "Добавить границу";
             this.button4.UseVisualStyleBackColor = true;
@@ -121,20 +131,22 @@
             // 
             // nuW
             // 
-            this.nuW.Location = new System.Drawing.Point(713, 220);
+            this.nuW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nuW.Location = new System.Drawing.Point(860, 197);
             this.nuW.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
             this.nuW.Name = "nuW";
-            this.nuW.Size = new System.Drawing.Size(74, 20);
+            this.nuW.Size = new System.Drawing.Size(58, 20);
             this.nuW.TabIndex = 6;
             this.nuW.ValueChanged += new System.EventHandler(this.nuW_ValueChanged);
             // 
             // nuH
             // 
-            this.nuH.Location = new System.Drawing.Point(860, 219);
+            this.nuH.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nuH.Location = new System.Drawing.Point(860, 234);
             this.nuH.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -147,8 +159,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(806, 225);
+            this.label1.Location = new System.Drawing.Point(833, 241);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 8;
@@ -156,18 +169,86 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(661, 225);
+            this.label2.Location = new System.Drawing.Point(830, 199);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
             this.label2.TabIndex = 9;
             this.label2.Text = "W=";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(824, 269);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Прямоугольников";
+            // 
+            // lblRectCnt
+            // 
+            this.lblRectCnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRectCnt.AutoSize = true;
+            this.lblRectCnt.Location = new System.Drawing.Point(830, 295);
+            this.lblRectCnt.Name = "lblRectCnt";
+            this.lblRectCnt.Size = new System.Drawing.Size(35, 13);
+            this.lblRectCnt.TabIndex = 11;
+            this.lblRectCnt.Text = "label4";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(824, 323);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Длина швов";
+            // 
+            // lblP
+            // 
+            this.lblP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblP.AutoSize = true;
+            this.lblP.Location = new System.Drawing.Point(830, 353);
+            this.lblP.Name = "lblP";
+            this.lblP.Size = new System.Drawing.Size(35, 13);
+            this.lblP.TabIndex = 13;
+            this.lblP.Text = "label5";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(824, 384);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(104, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Время вычислений";
+            // 
+            // lblTime
+            // 
+            this.lblTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(824, 412);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(35, 13);
+            this.lblTime.TabIndex = 15;
+            this.lblTime.Text = "label6";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(930, 471);
+            this.Controls.Add(this.lblTime);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblP);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblRectCnt);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nuH);
@@ -182,6 +263,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -207,6 +289,12 @@
         private System.Windows.Forms.NumericUpDown nuH;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblRectCnt;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblP;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTime;
     }
 }
 
