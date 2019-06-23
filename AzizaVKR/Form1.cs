@@ -240,7 +240,8 @@ namespace AzizaVKR
             int mw = pictureBox1.Width;
             int mh = pictureBox1.Height;
 
-            int p = (resultRects.Sum(rect=>rect.P(mw, mh)) - borderRects.Sum(rect=>rect.P(mw, mh)))/2;
+            int p = resultRects.Sum(rect => resultRects.Sum(rect2 => rect == rect2 ? 0 : rect.BorderLength(rect2)))/2;
+                //(resultRects.Sum(rect=>rect.P(mw, mh)) - borderRects.Sum(rect=>rect.P(mw, mh)))/2;
 
 
             lblRectCnt.Text = resultRects.Count.ToString();

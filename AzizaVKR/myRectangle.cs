@@ -32,6 +32,15 @@ namespace AzizaVKR
         public int Height { get; set; }
 
         /// <summary>
+        /// X правого нижнего угла
+        /// </summary>
+        public int X2 { get => this.X + this.Width; }
+        /// <summary>
+        /// У нижнего правого угла
+        /// </summary>
+        public int Y2 { get => this.Y + this.Height; }
+
+        /// <summary>
         /// Цвет заливки прямоугольника
         /// </summary>
         public Color FillColor { get; set; }
@@ -95,10 +104,10 @@ namespace AzizaVKR
             {
                 if (rect.Y < Y && Y < rect.Y + rect.Height)
                     return true;
-                if (rect.Y < Y + Height && Y + Height <rect.Y + rect.Height)
+                if (rect.Y < Y + Height && Y + Height < rect.Y + rect.Height)
                     return true;
             }
-            if (rect.X < X + Width && X + Width <rect.X + rect.Width)
+            if (rect.X < X + Width && X + Width < rect.X + rect.Width)
             {
                 if (rect.Y < Y && Y < rect.Y + rect.Height)
                     return true;
@@ -180,6 +189,75 @@ namespace AzizaVKR
                     return false;
             }
             return false;
+
+        }
+
+
+
+
+        public int BorderLength(MyRectangle mr2)
+        {
+            if (this.X == mr2.X2)
+            {
+                if (mr2.Y <= this.Y && this.Y <= mr2.Y2)
+                {
+                    return Math.Min(this.Y2, mr2.Y2) - this.Y;
+                }
+
+                if (this.Y <= mr2.Y && mr2.Y <= this.Y2)
+                {
+                    return Math.Min(this.Y2, mr2.Y2) - mr2.Y;
+                }
+                return 0;
+            }
+
+            if (this.X2 == mr2.X)
+            {
+                if (mr2.Y <= this.Y && this.Y <= mr2.Y2)
+                {
+                    return Math.Min(this.Y2, mr2.Y2) - this.Y;
+                }
+
+                if (this.Y <= mr2.Y && mr2.Y <= this.Y2)
+                {
+                    return Math.Min(this.Y2, mr2.Y2) - mr2.Y;
+                }
+                return 0;
+            }
+
+
+
+
+            if (this.Y == mr2.Y2)
+            {
+                if (mr2.X <= this.X && this.X <= mr2.X2)
+                {
+                    return Math.Min(this.X2, mr2.X2) - this.X;
+                }
+
+                if (this.X <= mr2.X && mr2.X <= this.X2)
+                {
+                    return Math.Min(this.X2, mr2.X2) - mr2.X;
+                }
+                return 0;
+            }
+
+
+            if (this.Y2 == mr2.Y)
+            {
+                if (mr2.X <= this.X && this.X <= mr2.X2)
+                {
+                    return Math.Min(this.X2, mr2.X2) - this.X;
+                }
+
+                if (this.X <= mr2.X && mr2.X <= this.X2)
+                {
+                    return Math.Min(this.X2, mr2.X2) - mr2.X;
+                }
+                return 0;
+            }
+
+            return 0;
 
         }
 
