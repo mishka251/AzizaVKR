@@ -522,12 +522,14 @@ namespace AzizaVKR
             if (Math.Abs(stX - e.X) < 20 || Math.Abs(stY - e.Y) < 10)
                 return;
 
+            int x = Math.Max(0, myRound(Math.Min(e.X, stX)));
+            int y = Math.Max(0, myRound(Math.Min(e.Y, stY)));
             MyRectangle mr = new MyRectangle
             {
-                X = myRound(Math.Min(e.X, stX)),
-                Y = myRound(Math.Min(e.Y, stY)),
-                Width = myRound(Math.Abs(stX - e.X)),
-                Height = myRound(Math.Abs(stY - e.Y)),
+                X =x ,
+                Y = y,
+                Width = Math.Min(pictureBox1.Width-x, myRound(Math.Abs(stX - e.X))),
+                Height = Math.Min(pictureBox1.Height-y, myRound(Math.Abs(stY - e.Y))),
                 FillColor = Color.Black
             };
             borderRects.Add(mr);
